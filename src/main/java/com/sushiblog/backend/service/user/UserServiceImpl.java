@@ -62,7 +62,18 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ProfileResponse profile(String email) {
-        return null;
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        //프로필의 주인
+        User owner = userRepository.findById(email)
+                .orElseThrow(UserNotFoundException::new);
+
+        return ProfileResponse.builder()
+                .email(owner.getEmail())
+                .isMine(user.getEmail().equals(email))
+                .nickname(owner.getNickname())
+                .build();
     }
 
     @Override

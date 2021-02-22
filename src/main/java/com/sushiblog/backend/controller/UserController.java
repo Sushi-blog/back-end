@@ -31,4 +31,9 @@ public class UserController {
         userService.deleteUser();
     }
 
+    @GetMapping
+    ProfileResponse profile(@RequestParam String email) {
+        return userService.profile(email);
+    }
+
 }
