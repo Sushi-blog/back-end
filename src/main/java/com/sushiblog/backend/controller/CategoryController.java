@@ -2,10 +2,7 @@ package com.sushiblog.backend.controller;
 
 import com.sushiblog.backend.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.sushiblog.backend.dto.CategoryDto.*;
 
@@ -19,6 +16,11 @@ public class CategoryController {
     @PutMapping
     public void updateName(@RequestBody Update request) {
         categoryService.updateName(request.getId(), request.getName());
+    }
+
+    @GetMapping
+    public CategoriesResponse getCategories(@PathVariable String email) {
+        return categoryService.getList(email);
     }
 
 }

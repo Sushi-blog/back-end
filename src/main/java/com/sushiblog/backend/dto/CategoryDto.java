@@ -13,14 +13,15 @@ public class CategoryDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Get{
+    public static class CategoriesResponse{
 
-        List<Category> categories;
+        List<CategoryResponse> categories;
 
     }
 
     @Getter
-    public static class Category {
+    @Builder
+    public static class CategoryResponse {
 
         private int id;
 

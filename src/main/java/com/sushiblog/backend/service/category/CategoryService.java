@@ -1,8 +1,8 @@
 package com.sushiblog.backend.service.category;
 
-import com.sushiblog.backend.dto.CategoryDto;
+import com.sushiblog.backend.dto.CategoryDto.CategoriesResponse;
 
 public interface CategoryService {
     void updateName(int id, String name);
-    CategoryDto.Get getList(String email);
+    CategoriesResponse getList(String email);
 }
