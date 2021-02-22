@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ProfileResponse profile(String email) {
+    public ProfileResponse profileInfo(String email) {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
 

@@ -32,8 +32,8 @@ public class UserController {
     }
 
     @GetMapping
-    ProfileResponse profile(@RequestParam String email) {
-        return userService.profile(email);
+    ProfileResponse profileInfo(@RequestParam String email) {
+        return userService.profileInfo(email);
     }
 
 }
