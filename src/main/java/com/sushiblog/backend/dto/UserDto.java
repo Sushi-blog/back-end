@@ -14,7 +14,7 @@ public class UserDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class signUp {
+    public static class SignUpRequest {
 
         @NotBlank
         @Email
@@ -32,7 +32,7 @@ public class UserDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class signIn {
+    public static class SignInRequest {
 
         @NotBlank
         @Email
@@ -47,7 +47,7 @@ public class UserDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class profile {
+    public static class ProfileResponse {
 
         private String email;
 

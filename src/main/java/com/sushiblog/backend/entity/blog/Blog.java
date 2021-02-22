@@ -1,7 +1,7 @@
 package com.sushiblog.backend.entity.blog;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sushiblog.backend.dto.BlogDto;
+import com.sushiblog.backend.dto.BlogDto.BlogRequest;
 import com.sushiblog.backend.entity.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,7 +36,7 @@ public class Blog {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public void update(BlogDto.BlogRequest request) {
+    public void update(BlogRequest request) {
         this.title = request.getTitle();
         this.content = request.getContent();
         this.fileName = request.getFileName();

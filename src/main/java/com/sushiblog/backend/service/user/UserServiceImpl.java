@@ -1,6 +1,6 @@
 package com.sushiblog.backend.service.user;
 
-import com.sushiblog.backend.dto.UserDto;
+import com.sushiblog.backend.dto.UserDto.*;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
 import com.sushiblog.backend.error.EmailAlreadyExistsException;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public void signUp(UserDto.signUp signInRequest) {
+    public void signUp(SignUpRequest signInRequest) {
         userRepository.findByNickname(signInRequest.getNickname())
                 .ifPresent(e -> {
                     throw new NicknameAlreadyExistsException();
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto.profile profile(String email) {
+    public ProfileResponse profile(String email) {
         return null;
     }
 

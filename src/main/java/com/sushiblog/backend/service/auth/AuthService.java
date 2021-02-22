@@ -2,9 +2,9 @@ package com.sushiblog.backend.service.auth;
 
 
 import com.sushiblog.backend.dto.TokenDto;
-import com.sushiblog.backend.dto.UserDto;
+import com.sushiblog.backend.dto.UserDto.SignInRequest;
 
 public interface AuthService {
-    TokenDto.TokenResponse signIn(UserDto.signIn signInRequest);
+    TokenDto.TokenResponse signIn(SignInRequest signInRequest);
     TokenDto.AccessTokenResponse tokenRefresh(String receivedToken);
 }
