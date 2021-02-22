@@ -30,6 +30,19 @@ public class UserDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class signIn {
+        @NotBlank
+        @Email
+        private String email;
+
+        @NotBlank
+        private String password;
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class profile {
         private String email;
 
