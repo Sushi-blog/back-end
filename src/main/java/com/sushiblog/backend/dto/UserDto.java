@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class UserDto {
@@ -15,6 +16,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class signUp {
         @NotBlank
+        @Email
         private String email;
 
         @NotBlank

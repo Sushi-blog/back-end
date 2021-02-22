@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/account")
 @RestController
 public class UserController {
-    
+
     private final UserService userService;
 
     @PostMapping
