@@ -1,7 +1,7 @@
 package com.sushiblog.backend.entity.blog;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.sushiblog.backend.dto.BlogRequest;
+import com.sushiblog.backend.dto.BlogDto.BlogRequest;
 import com.sushiblog.backend.entity.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

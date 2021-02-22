@@ -1,6 +1,6 @@
 package com.sushiblog.backend.controller;
 
-import com.sushiblog.backend.dto.UserDto;
+import com.sushiblog.backend.dto.UserDto.*;
 import com.sushiblog.backend.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,13 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@RequestBody @Validated UserDto.signUp request) {
+    public void signUp(@RequestBody @Validated SignUpRequest request) {
         userService.signUp(request);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNickname(@RequestParam String nickname) {
+    public void updateNickname(@RequestBody String nickname) {
         userService.updateName(nickname);
     }
 

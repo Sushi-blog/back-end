@@ -1,6 +1,8 @@
 package com.sushiblog.backend.service.user;
 
-import com.sushiblog.backend.dto.UserDto;
+import com.sushiblog.backend.dto.UserDto.*;
+import com.sushiblog.backend.entity.category.Category;
+import com.sushiblog.backend.entity.category.CategoryRepository;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
 import com.sushiblog.backend.error.EmailAlreadyExistsException;
@@ -17,12 +19,13 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CategoryRepository categoryRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
 
     @Override
-    public void signUp(UserDto.signUp signInRequest) {
+    public void signUp(SignUpRequest signInRequest) {
         userRepository.findByNickname(signInRequest.getNickname())
                 .ifPresent(e -> {
                     throw new NicknameAlreadyExistsException();
@@ -32,13 +35,21 @@ public class UserServiceImpl implements UserService{
                     throw new EmailAlreadyExistsException();
                 });
 
-        userRepository.save(
+        User user = userRepository.save(
                 User.builder()
                         .email(signInRequest.getEmail())
                         .password(passwordEncoder.encode(signInRequest.getPassword()))
                         .nickname(signInRequest.getNickname())
                         .build()
         );
+        for(int i = 0; i < 4; i++) {
+            categoryRepository.save(
+                    Category.builder()
+                            .user(user)
+                            .name("연어초밥")
+                            .build()
+            );
+        }
     }
 
     @Override
@@ -50,7 +61,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserDto.profile profile(String email) {
+    public ProfileResponse profile(String email) {
         return null;
     }
 
