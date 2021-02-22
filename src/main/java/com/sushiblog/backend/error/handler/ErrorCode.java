@@ -1,4 +1,4 @@
-package com.sushiblog.backend.error;
+package com.sushiblog.backend.error.handler;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
