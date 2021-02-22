@@ -26,4 +26,9 @@ public class UserController {
         userService.updateName(nickname);
     }
 
+    @DeleteMapping
+    public void deleteUser() {
+        userService.deleteUser();
+    }
+
 }

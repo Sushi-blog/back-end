@@ -53,4 +53,12 @@ public class UserServiceImpl implements UserService{
     public UserDto.profile profile(String email) {
         return null;
     }
+
+    @Override
+    public void deleteUser() {
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        userRepository.delete(user);
+    }
 }

@@ -6,4 +6,5 @@ public interface UserService {
     void signUp(UserDto.signUp signInRequest);
     void updateName(String nickname);
     UserDto.profile profile(String email);
+    void deleteUser();
 }
