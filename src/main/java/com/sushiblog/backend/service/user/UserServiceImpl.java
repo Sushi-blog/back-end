@@ -5,6 +5,8 @@ import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
 import com.sushiblog.backend.error.EmailAlreadyExistsException;
 import com.sushiblog.backend.error.NicknameAlreadyExistsException;
+import com.sushiblog.backend.error.UserNotFoundException;
+import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationFacade authenticationFacade;
 
 
     @Override
@@ -39,7 +43,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateName(String nickname) {
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
 
+        user.updateNickname(nickname);
     }
 
     @Override

@@ -20,4 +20,10 @@ public class UserController {
         userService.signUp(request);
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateNickname(@RequestParam String nickname) {
+        userService.updateName(nickname);
+    }
+
 }
