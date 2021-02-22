@@ -15,6 +15,7 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class signUp {
+
         @NotBlank
         @Email
         private String email;
@@ -24,6 +25,7 @@ public class UserDto {
 
         @NotBlank
         private String nickname;
+
     }
 
     @Getter
@@ -31,12 +33,14 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class signIn {
+
         @NotBlank
         @Email
         private String email;
 
         @NotBlank
         private String password;
+
     }
 
     @Getter
@@ -44,11 +48,13 @@ public class UserDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class profile {
+
         private String email;
 
         private boolean isMine;
 
         private String nickname;
+
     }
 
 }
