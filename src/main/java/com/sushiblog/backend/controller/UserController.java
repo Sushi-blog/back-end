@@ -22,7 +22,7 @@ public class UserController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNickname(@RequestParam String nickname) {
+    public void updateNickname(@RequestBody String nickname) {
         userService.updateName(nickname);
     }
 
