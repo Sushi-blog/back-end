@@ -30,14 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .sessionManagement().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/account").permitAll()
+                .antMatchers(HttpMethod.GET, "/account").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers(HttpMethod.GET, "/blog/details").permitAll()
+                .antMatchers(HttpMethod.GET, "/blog").permitAll()
                 .anyRequest().authenticated().and()
                 .apply(new JwtConfigure(jwtTokenProvider));
-
-        http.logout() // 만약 csrf와 사용하는 경우 무조건 post
-                .logoutUrl("/logout") //로그아웃 요청 시 사용하는 URL
-                .logoutSuccessUrl("/auth"); // 로그아웃 성공시 반환하는 URL
-
     }
 
     @Override
