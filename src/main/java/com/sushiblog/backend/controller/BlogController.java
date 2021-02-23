@@ -19,4 +19,11 @@ public class BlogController {
         blogService.writePost(request);
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePost(@PathVariable int id,
+                           @RequestBody BlogRequest request) {
+        blogService.updatePost(id, request);
+    }
+
 }

@@ -7,6 +7,7 @@ import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.category.CategoryRepository;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
+import com.sushiblog.backend.error.BlogNotFoundException;
 import com.sushiblog.backend.error.CategoryNotFoundException;
 import com.sushiblog.backend.error.NotAccessibleException;
 import com.sushiblog.backend.error.UserNotFoundException;
@@ -44,6 +45,22 @@ public class BlogServiceImpl implements BlogService {
                             .createdAt(LocalDateTime.now())
                             .build()
             );
+        }
+        else {
+            throw new NotAccessibleException();
+        }
+    }
+
+    @Override
+    public void updatePost(int id, BlogRequest request) {
+        Blog blog = blogRepository.findById(id)
+                .orElseThrow(BlogNotFoundException::new);
+
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        if(blog.getCategory().getUser() == user) {
+            blog.update(request);
         }
         else {
             throw new NotAccessibleException();
