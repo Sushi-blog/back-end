@@ -45,16 +45,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String generateRefreshToken(String email) {
-        return Jwts.builder()
-                .setIssuedAt(new Date())
-                .setSubject(email)
-                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration * 1000))
-                .claim("type", "refresh_token")
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-    }
-
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(header);
         if (bearerToken != null && bearerToken.startsWith(prefix)) {
@@ -84,14 +74,6 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
         AuthDetails authDetails = authDetailsService.loadUserByUsername(getEmail(token));
         return new UsernamePasswordAuthenticationToken(authDetails, "", authDetails.getAuthorities());
-    }
-
-    public boolean isRefreshToken(String token) {
-        try {
-            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("type").equals("refresh_token");
-        } catch (Exception e) {
-            throw new InvalidTokenException();
-        }
     }
 
 }
