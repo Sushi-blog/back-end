@@ -14,6 +14,8 @@ import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @Service
 public class BlogServiceImpl implements BlogService {
@@ -39,6 +41,7 @@ public class BlogServiceImpl implements BlogService {
                             .content(request.getContent())
                             .fileName(request.getFileName())
                             .category(category)
+                            .createdAt(LocalDateTime.now())
                             .build()
             );
         }
