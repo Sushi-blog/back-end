@@ -42,11 +42,11 @@ public class UserServiceImpl implements UserService{
                         .nickname(signInRequest.getNickname())
                         .build()
         );
-        for(int i = 0; i < 4; i++) {
+        for(int i = 1; i <= 4; i++) {
             categoryRepository.save(
                     Category.builder()
                             .user(user)
-                            .name("연어초밥")
+                            .name("카테고리"+i)
                             .build()
             );
         }
@@ -62,16 +62,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public ProfileResponse profileInfo(String email) {
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
-
         //프로필의 주인
         User owner = userRepository.findById(email)
                 .orElseThrow(UserNotFoundException::new);
 
         return ProfileResponse.builder()
                 .email(owner.getEmail())
-                .isMine(user.getEmail().equals(email))
                 .nickname(owner.getNickname())
                 .build();
     }
