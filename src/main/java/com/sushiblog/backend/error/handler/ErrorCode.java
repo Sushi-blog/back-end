@@ -13,7 +13,8 @@ public enum ErrorCode {
     EXPIRED_TOKEN(401, "USER401-0","Token is Expired"),
     UNAUTHENTICATED(401, "USER401-1", "UnAuthenticated"),
     NOT_ACCESSIBLE(401, "USER401-2","Check the token"),
-    ALREADY_EXIST(409, "USER409-0","Already exists");
+    ALREADY_EXIST(409, "USER409-0","Already exists"),
+    FROMAT_INCORRECT(400, "USER400-1", "String format is incorrect");
 
     private final int status;
     private final String code;

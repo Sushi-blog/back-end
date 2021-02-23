@@ -22,8 +22,10 @@ public class Blog {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(length = 15)
     private String title;
 
+    @Column(length = 1000)
     private String content;
 
     private String fileName;

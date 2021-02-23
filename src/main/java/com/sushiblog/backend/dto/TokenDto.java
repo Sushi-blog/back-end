@@ -15,20 +15,6 @@ public class TokenDto {
         @JsonProperty("access-token")
         private String accessToken;
 
-        @JsonProperty("refresh-token")
-        private String refreshToken;
-
-        @JsonProperty("refresh-exp")
-        private Long refreshExp;
-
-    }
-
-    @AllArgsConstructor
-    public static class AccessTokenResponse {
-
-        @JsonProperty("access-token")
-        private final String accessToken;
-
     }
 
 }

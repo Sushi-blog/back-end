@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 public class BlogDto {
 
     @Getter
@@ -13,12 +15,15 @@ public class BlogDto {
     @AllArgsConstructor
     public class BlogRequest {
 
+        @NotBlank
         private String title;
 
+        @NotBlank
         private String content;
 
         private String fileName;
 
+        @NotBlank
         private int categoryId;
 
     }

@@ -51,8 +51,6 @@ public class UserDto {
 
         private String email;
 
-        private boolean isMine;
-
         private String nickname;
 
     }

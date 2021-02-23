@@ -6,6 +6,7 @@ import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.category.CategoryRepository;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
+import com.sushiblog.backend.error.CategoryNotFoundException;
 import com.sushiblog.backend.error.NotAccessibleException;
 import com.sushiblog.backend.error.UserNotFoundException;
 import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
@@ -25,31 +26,27 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateName(int id, String name) {
-        if(authenticationFacade.isLogin()){
-            throw new NotAccessibleException();
-        };
-
         Category category = categoryRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(CategoryNotFoundException::new);
+
         if(category.getUser().getEmail().equals(authenticationFacade.getUserEmail())) {
             category.updateName(name);
+        }
+        else {
+            throw new NotAccessibleException();
         }
     }
 
     @Override
     public CategoriesResponse getList(String email) {
-        if(authenticationFacade.isLogin()){
-            throw new NotAccessibleException();
-        };
-
         User user = userRepository.findById(email)
                 .orElseThrow(UserNotFoundException::new);
 
         List<Category> categories = categoryRepository.findAllByUser(user);
-        List<CategoryResponse> categorieList = new ArrayList<>();
+        List<CategoryResponse> categoryList = new ArrayList<>();
 
         for(Category category : categories) {
-            categorieList.add(
+            categoryList.add(
                     CategoryResponse.builder()
                             .id(category.getId())
                             .name(category.getName())
@@ -58,7 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return CategoriesResponse.builder()
-                .categories(categorieList)
+                .categories(categoryList)
                 .build();
     }
 
