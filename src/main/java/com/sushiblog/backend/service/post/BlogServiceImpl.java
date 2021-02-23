@@ -67,4 +67,17 @@ public class BlogServiceImpl implements BlogService {
         }
     }
 
+    @Override
+    public void deletePost(int id) {
+        Blog blog = blogRepository.findById(id)
+                .orElseThrow(BlogNotFoundException::new);
+
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        if(blog.getCategory().getUser() == user) {
+            blogRepository.delete(blog);
+        }
+    }
+
 }

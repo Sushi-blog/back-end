@@ -15,7 +15,7 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void post(@RequestBody BlogRequest request) {
+    public void writePost(@RequestBody BlogRequest request) {
         blogService.writePost(request);
     }
 
@@ -24,6 +24,11 @@ public class BlogController {
     public void updatePost(@PathVariable int id,
                            @RequestBody BlogRequest request) {
         blogService.updatePost(id, request);
+    }
+
+    @DeleteMapping
+    public void deletePost(@RequestParam int id) {
+        blogService.deletePost(id);
     }
 
 }
