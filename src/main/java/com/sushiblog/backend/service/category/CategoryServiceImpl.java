@@ -13,9 +13,6 @@ import com.sushiblog.backend.error.UserNotFoundException;
 import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
