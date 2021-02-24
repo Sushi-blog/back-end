@@ -27,10 +27,10 @@ public class Category {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "user_email")
+    @JoinColumn(name = "user")
     private User user;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "category")
     @JsonBackReference
     private List<Blog> blogs;
 

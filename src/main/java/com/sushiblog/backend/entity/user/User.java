@@ -8,10 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Getter
@@ -30,11 +27,11 @@ public class User {
     @Column(nullable = false, length = 10)
     private String nickname;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Category> categories;
 
-    @OneToMany
+    @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
     @JsonBackReference
     private List<Blog> blogs;
 

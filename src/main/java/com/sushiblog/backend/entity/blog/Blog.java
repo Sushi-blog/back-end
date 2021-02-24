@@ -36,12 +36,12 @@ public class Blog {
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category")
     private Category category;
 
     @ManyToOne
     @JsonManagedReference
-    @JoinColumn(name = "user_email")
+    @JoinColumn(name = "user")
     private User user;
 
     public void update(BlogRequest request) {
