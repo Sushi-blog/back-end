@@ -21,8 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -129,6 +128,30 @@ class UserControllerTest {
     @Test
     public void 회원탈퇴_실패() throws Exception {
         mvc.perform(delete("/account"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @WithMockUser(value = "201413lsy@dsm.hs.kr", password = "password1234")
+    @Test
+    public void 닉네임_수정() throws Exception {
+        mvc.perform(put("/account")
+                .param("name","이승윤은 최고다"))
+                .andExpect(status().isNoContent());
+    }
+
+    @WithMockUser(value = "201413lsy@dsm.hs.kr", password = "password1234")
+    @Test
+    public void 닉네임_수정_실패() throws Exception {
+        mvc.perform(put("/account")
+                .param("name"," "))
+                .andExpect(status().isBadRequest());
+    }
+
+    @WithMockUser(value = "3lsy@dsm.hs.kr", password = "passw")
+    @Test
+    public void 닉네임_수정_로그인X() throws Exception {
+        mvc.perform(put("/account")
+                .param("name","hi"))
                 .andExpect(status().isUnauthorized());
     }
 
