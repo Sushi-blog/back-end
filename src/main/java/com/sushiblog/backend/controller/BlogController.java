@@ -3,6 +3,7 @@ package com.sushiblog.backend.controller;
 import com.sushiblog.backend.dto.BlogDto.*;
 import com.sushiblog.backend.service.post.BlogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,18 @@ public class BlogController {
     @DeleteMapping
     public void deletePost(@RequestParam int id) {
         blogService.deletePost(id);
+    }
+
+    @GetMapping("/{email}")
+    public BlogsResponse getBlogs(@PathVariable String email,
+                                     Pageable page,
+                                     @RequestParam int categoryId) {
+        return blogService.getPosts(email, page, categoryId);
+    }
+
+    @GetMapping("/details/{email}")
+    public BlogDetailsResponse getBlog(@PathVariable String email, @RequestParam int id) {
+        return blogService.getPost(email, id);
     }
 
 }

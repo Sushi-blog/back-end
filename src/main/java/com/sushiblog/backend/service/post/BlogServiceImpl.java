@@ -13,9 +13,13 @@ import com.sushiblog.backend.error.NotAccessibleException;
 import com.sushiblog.backend.error.UserNotFoundException;
 import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,8 +36,10 @@ public class BlogServiceImpl implements BlogService {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
 
-        Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = categoryRepository.findById(request.getCategoryId());
+        if(category == null) {
+            throw new CategoryNotFoundException();
+        }
 
         if(category.getUser().getEmail().equals(user.getEmail())) {
             blogRepository.save(
@@ -78,6 +84,45 @@ public class BlogServiceImpl implements BlogService {
         if(blog.getCategory().getUser() == user) {
             blogRepository.delete(blog);
         }
+    }
+
+    @Override
+    public BlogsResponse getPosts(String email, Pageable page, int categoryId) {
+        User user = userRepository.findById(email)
+                .orElseThrow(UserNotFoundException::new);
+
+        Category category = categoryRepository.findById(categoryId);
+
+        Page<Blog> blogPage;
+        if(category == null) {
+            blogPage = blogRepository.findAllByUserOrderByIdDesc(user, page);
+        }
+        else {
+            blogPage = blogRepository.findAllByUserAndCategoryOOrderByIdDesc(user, category, page);
+        }
+        List<Blogs> blogs = new ArrayList<>();
+
+        for(Blog blog : blogPage) {
+            blogs.add(
+              Blogs.builder()
+                      .id(blog.getId())
+                      .category(category.getName())
+                      .title(blog.getTitle())
+                      .createdAt(blog.getCreatedAt())
+                      .build()
+            );
+        }
+
+        return BlogsResponse.builder()
+                .totalElements((int)blogPage.getTotalElements())
+                .totalPages(blogPage.getTotalPages())
+                .blogs(blogs)
+                .build();
+    }
+
+    @Override
+    public BlogDetailsResponse getPost(String email, int id) {
+        return null;
     }
 
 }
