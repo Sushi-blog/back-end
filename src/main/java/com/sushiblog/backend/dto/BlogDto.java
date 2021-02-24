@@ -1,5 +1,6 @@
 package com.sushiblog.backend.dto;
 
+import com.sushiblog.backend.entity.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,7 +52,7 @@ public class BlogDto {
 
         private int id;
 
-        private String category;
+        private Category category;
 
         private String title;
 
@@ -66,9 +67,11 @@ public class BlogDto {
     @AllArgsConstructor
     public static class BlogDetailsResponse {
 
-        private String category;
+        private Category category;
 
         private String writer;
+
+        private String title;
 
         private String content;
 

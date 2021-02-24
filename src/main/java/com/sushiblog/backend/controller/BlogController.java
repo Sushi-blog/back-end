@@ -40,7 +40,8 @@ public class BlogController {
     }
 
     @GetMapping("/details/{email}")
-    public BlogDetailsResponse getBlog(@PathVariable String email, @RequestParam int id) {
+    public BlogDetailsResponse getBlog(@PathVariable String email,
+                                       @RequestParam int id) {
         return blogService.getPost(email, id);
     }
 

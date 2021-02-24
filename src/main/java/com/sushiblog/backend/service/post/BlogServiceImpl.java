@@ -106,7 +106,7 @@ public class BlogServiceImpl implements BlogService {
             blogs.add(
               Blogs.builder()
                       .id(blog.getId())
-                      .category(category.getName())
+                      .category(category)
                       .title(blog.getTitle())
                       .createdAt(blog.getCreatedAt())
                       .build()
@@ -122,7 +122,19 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public BlogDetailsResponse getPost(String email, int id) {
-        return null;
+        User user = userRepository.findById(email)
+                .orElseThrow(UserNotFoundException::new);
+
+        Blog blog = blogRepository.findById(id)
+                .orElseThrow(BlogNotFoundException::new);
+
+        return BlogDetailsResponse.builder()
+                .category(blog.getCategory())
+                .writer(user.getNickname())
+                .title(blog.getTitle())
+                .content(blog.getContent())
+                .createdAt(blog.getCreatedAt())
+                .build();
     }
 
 }
