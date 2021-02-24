@@ -167,4 +167,22 @@ class UserControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    public void 로그인() throws Exception {
+        SignInRequest signInRequest = new SignInRequest("yyuunn17@naver.com", "password1235");
+
+        mvc.perform(post("/auth").content(new ObjectMapper().writeValueAsString(signInRequest))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isCreated());
+    }
+
+    @Test
+    public void 로그인_실패() throws Exception {
+        SignInRequest signInRequest = new SignInRequest("yyu17@naver.com", "password1235");
+
+        mvc.perform(post("/auth").content(new ObjectMapper().writeValueAsString(signInRequest))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
 }
