@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
+
 @RequiredArgsConstructor
 @RequestMapping("/account")
 @RestController
@@ -22,8 +24,8 @@ public class UserController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNickname(@RequestBody String nickname) {
-        userService.updateName(nickname);
+    public void updateNickname(@RequestParam @Validated UpdateName name) {
+        userService.updateName(name.getNickname());
     }
 
     @DeleteMapping
