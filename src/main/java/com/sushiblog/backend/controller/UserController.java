@@ -22,7 +22,7 @@ public class UserController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateNickname(@RequestParam @Validated UpdateName name) {
+    public void updateNickname(@RequestBody @Validated UpdateName name) {
         userService.updateName(name.getNickname());
     }
 

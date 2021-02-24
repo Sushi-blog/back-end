@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -135,7 +135,8 @@ class UserControllerTest {
     @Test
     public void 닉네임_수정() throws Exception {
         mvc.perform(put("/account")
-                .param("name","이승윤은 최고다"))
+                .content(new ObjectMapper().writeValueAsString("이승윤 최고다"))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
     }
 
@@ -143,7 +144,8 @@ class UserControllerTest {
     @Test
     public void 닉네임_수정_실패() throws Exception {
         mvc.perform(put("/account")
-                .param("name"," "))
+                .content(new ObjectMapper().writeValueAsString("    "))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
     }
 
@@ -151,7 +153,8 @@ class UserControllerTest {
     @Test
     public void 닉네임_수정_로그인X() throws Exception {
         mvc.perform(put("/account")
-                .param("name","hi"))
+                .content(new ObjectMapper().writeValueAsString("request"))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
     }
 
