@@ -34,7 +34,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void writePost(BlogRequest request) {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(NotAccessibleException::new);
 
         Category category = categoryRepository.findById(request.getCategoryId());
         if(category == null) {
@@ -63,7 +63,7 @@ public class BlogServiceImpl implements BlogService {
                 .orElseThrow(BlogNotFoundException::new);
 
         User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(NotAccessibleException::new);
 
         if(blog.getCategory().getUser() == user) {
             blog.update(request);
@@ -79,7 +79,7 @@ public class BlogServiceImpl implements BlogService {
                 .orElseThrow(BlogNotFoundException::new);
 
         User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(NotAccessibleException::new);
 
         if(blog.getCategory().getUser() == user) {
             blogRepository.delete(blog);

@@ -1,6 +1,5 @@
 package com.sushiblog.backend.service.user;
 
-import com.fasterxml.jackson.databind.deser.DataFormatReaders;
 import com.sushiblog.backend.dto.UserDto.*;
 import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.category.CategoryRepository;
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateName(String nickname) {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(NotAccessibleException::new);
 
         user.updateNickname(nickname);
     }
