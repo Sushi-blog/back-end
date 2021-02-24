@@ -6,10 +6,7 @@ import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.category.CategoryRepository;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
-import com.sushiblog.backend.error.EmailAlreadyExistsException;
-import com.sushiblog.backend.error.NicknameAlreadyExistsException;
-import com.sushiblog.backend.error.PasswordFormatInCorrectException;
-import com.sushiblog.backend.error.UserNotFoundException;
+import com.sushiblog.backend.error.*;
 import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -90,7 +87,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser() {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(NotAccessibleException::new);
 
         userRepository.delete(user);
     }
