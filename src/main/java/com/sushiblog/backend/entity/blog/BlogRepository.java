@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlogRepository extends CrudRepository<Blog, Integer> {
-    Page<Blog> findAllByUserAndCategoryOOrderByIdDesc(User user, Category category, Pageable page);
+    Page<Blog> findAllByUserAndCategoryOrderByIdDesc(User user, Category category, Pageable page);
     Page<Blog> findAllByUserOrderByIdDesc(User user, Pageable page);
 }

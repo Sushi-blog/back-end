@@ -98,7 +98,7 @@ public class BlogServiceImpl implements BlogService {
             blogPage = blogRepository.findAllByUserOrderByIdDesc(user, page);
         }
         else {
-            blogPage = blogRepository.findAllByUserAndCategoryOOrderByIdDesc(user, category, page);
+            blogPage = blogRepository.findAllByUserAndCategoryOrderByIdDesc(user, category, page);
         }
         List<Blogs> blogs = new ArrayList<>();
 
