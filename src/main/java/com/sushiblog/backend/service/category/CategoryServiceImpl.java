@@ -26,8 +26,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateName(int id, String name) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = categoryRepository.findById(id);
+        if(category == null) {
+            throw new CategoryNotFoundException();
+        }
 
         if(category.getUser().getEmail().equals(authenticationFacade.getUserEmail())) {
             category.updateName(name);
