@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -104,7 +105,7 @@ public class CategoryControllerTest {
 
         mvc.perform(put("/category")
                 .content(new ObjectMapper().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
     }
 
@@ -128,7 +129,7 @@ public class CategoryControllerTest {
 
         mvc.perform(put("/category")
                 .content(new ObjectMapper().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -140,6 +141,18 @@ public class CategoryControllerTest {
                         .name("category1")
                         .build()
         ).getId();
+    }
+
+    @Test
+    public void 카테고리리스트() throws Exception {
+        mvc.perform(get("/category/201413lsy@dsm.hs.kr"))
+                .andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void 카테고리리스트_가져오기실패() throws Exception {
+        mvc.perform(get("/category/201413lsy0@dsm.hs.kr"))
+                .andExpect(status().isNotFound()).andDo(print());
     }
 
 }
