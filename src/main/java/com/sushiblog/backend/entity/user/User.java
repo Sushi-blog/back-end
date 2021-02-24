@@ -1,6 +1,7 @@
 package com.sushiblog.backend.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sushiblog.backend.entity.blog.Blog;
 import com.sushiblog.backend.entity.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,10 @@ public class User {
     @OneToMany
     @JsonBackReference
     private List<Category> categories;
+
+    @OneToMany
+    @JsonBackReference
+    private List<Blog> blogs;
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;

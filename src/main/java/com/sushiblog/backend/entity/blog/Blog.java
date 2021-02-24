@@ -3,6 +3,7 @@ package com.sushiblog.backend.entity.blog;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sushiblog.backend.dto.BlogDto.BlogRequest;
 import com.sushiblog.backend.entity.category.Category;
+import com.sushiblog.backend.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,11 @@ public class Blog {
     @JsonManagedReference
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JsonManagedReference
+    @JoinColumn(name = "user_email")
+    private User user;
 
     public void update(BlogRequest request) {
         this.title = request.getTitle();
