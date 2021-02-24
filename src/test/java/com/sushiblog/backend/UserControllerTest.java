@@ -155,4 +155,16 @@ class UserControllerTest {
                 .andExpect(status().isUnauthorized());
     }
 
+    @Test
+    public void 프로필_정보() throws Exception {
+        mvc.perform(get("/account/201413lsy@dsm.hs.kr"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void 프로필_정보_못가져옴() throws Exception {
+        mvc.perform(get("/account/20141@dsm.hs.kr"))
+                .andExpect(status().isNotFound());
+    }
+
 }
