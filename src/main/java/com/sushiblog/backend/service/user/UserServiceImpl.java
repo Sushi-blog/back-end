@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService{
             }
         }
         else {
-            throw new PasswordFormatInCorrectException();
+            throw new FormatInCorrectException();
         }
 
 

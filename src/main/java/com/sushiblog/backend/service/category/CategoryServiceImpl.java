@@ -7,12 +7,15 @@ import com.sushiblog.backend.entity.category.CategoryRepository;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
 import com.sushiblog.backend.error.CategoryNotFoundException;
+import com.sushiblog.backend.error.FormatInCorrectException;
 import com.sushiblog.backend.error.NotAccessibleException;
 import com.sushiblog.backend.error.UserNotFoundException;
 import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,9 @@ public class CategoryServiceImpl implements CategoryService {
         if(category == null) {
             throw new CategoryNotFoundException();
         }
+
+        if(!(name.length() > 0 && name.length() <20))
+            throw new FormatInCorrectException();
 
         if(category.getUser().getEmail().equals(authenticationFacade.getUserEmail())) {
             category.updateName(name);
