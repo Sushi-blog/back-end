@@ -7,7 +7,7 @@ import lombok.Getter;
 @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 @Getter
 @AllArgsConstructor
-public enum ErrorCode {
+public enum ErrorCode { //대충 쓰면 나중에 오류날 때 어떤 오류인지 확인하기 어렵다.
     INVALID_TOKEN(400, "USER400-0", "Invalid Token"),
     NOT_FOUND(404, "USER404-0","Not Found"),
     EXPIRED_TOKEN(401, "USER401-0","Token is Expired"),
