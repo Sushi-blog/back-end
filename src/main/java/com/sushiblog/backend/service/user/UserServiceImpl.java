@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService{
@@ -37,8 +40,10 @@ public class UserServiceImpl implements UserService{
                     throw new EmailAlreadyExistsException();
                 });
 
-        String pattern = "^[A-Za-z[0-9]]{8,16}$";
-        if(pattern.matches(signInRequest.getPassword())) {
+        final String PW_PATTERN = "(?=.*[a-zA-Z])(?=.*[0-9])";
+        String password = signInRequest.getPassword();
+        Matcher m = Pattern.compile(PW_PATTERN).matcher(password);
+        if(m.find()&& password.length() <= 16 && password.length() >= 8) {
             User user = userRepository.save(
                     User.builder()
                             .email(signInRequest.getEmail())
