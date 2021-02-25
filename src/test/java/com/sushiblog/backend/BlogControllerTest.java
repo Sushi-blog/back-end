@@ -26,8 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -149,8 +148,20 @@ class BlogControllerTest {
 
         mvc.perform(put("/blog/"+blogId)
                 .content(new ObjectMapper().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
+    }
+
+    @WithMockUser(value = "yyuunn17@naver.com", password = "password1235")
+    @Test
+    public void 게시글삭제_성공() throws Exception {
+        User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
+        Integer categoryId = createCategory(user);
+        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+
+        mvc.perform(delete("/blog")
+                .param("id",blogId.toString()))
+                .andExpect(status().isOk());
     }
 
     private Integer createCategory(User user) {
