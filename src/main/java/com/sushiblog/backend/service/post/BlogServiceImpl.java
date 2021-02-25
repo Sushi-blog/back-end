@@ -17,7 +17,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,9 +108,9 @@ public class BlogServiceImpl implements BlogService {
             blogs.add(
               Blogs.builder()
                       .id(blog.getId())
-                      .category(category)
+                      .category(blog.getCategory().getName())
                       .title(blog.getTitle())
-                      .createdAt(blog.getCreatedAt())
+                      .createdAt(LocalDate.from(blog.getCreatedAt()))
                       .build()
             );
         }
@@ -129,11 +131,11 @@ public class BlogServiceImpl implements BlogService {
                 .orElseThrow(BlogNotFoundException::new);
 
         return BlogDetailsResponse.builder()
-                .category(blog.getCategory())
+                .categoryId(blog.getCategory().getId())
                 .writer(user.getNickname())
                 .title(blog.getTitle())
                 .content(blog.getContent())
-                .createdAt(blog.getCreatedAt())
+                .createdAt(LocalDateTime.parse(blog.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm"))))
                 .build();
     }
 

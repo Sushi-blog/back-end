@@ -36,7 +36,7 @@ public class BlogController {
     @GetMapping("/{email}")
     public BlogsResponse getBlogs(@PathVariable String email,
                                      Pageable page,
-                                     @RequestParam int categoryId) {
+                                     @RequestParam(name = "category-id", required = false) int categoryId) {
         return blogService.getPosts(email, page, categoryId);
     }
 

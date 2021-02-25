@@ -1,6 +1,5 @@
 package com.sushiblog.backend.dto;
 
-import com.sushiblog.backend.entity.category.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,12 +53,12 @@ public class BlogDto {
 
         private int id;
 
-        private Category category;
+        private String category;
 
         private String title;
 
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private LocalDateTime createdAt;
+        private LocalDate createdAt;
 
     }
 
@@ -68,7 +68,7 @@ public class BlogDto {
     @AllArgsConstructor
     public static class BlogDetailsResponse {
 
-        private Category category;
+        private Integer categoryId;
 
         private String writer;
 
@@ -76,7 +76,6 @@ public class BlogDto {
 
         private String content;
 
-        @DateTimeFormat(pattern = "yyyy-MM-dd`T`hh:mm")
         private LocalDateTime createdAt;
 
     }
