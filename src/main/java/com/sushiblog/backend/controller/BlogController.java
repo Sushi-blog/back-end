@@ -5,6 +5,7 @@ import com.sushiblog.backend.service.post.BlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/blog")
@@ -16,14 +17,14 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writePost(@RequestBody BlogRequest request) {
+    public void writePost(@RequestBody @Validated BlogRequest request) {
         blogService.writePost(request);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePost(@PathVariable int id,
-                           @RequestBody BlogRequest request) {
+                           @RequestBody @Validated BlogRequest request) {
         blogService.updatePost(id, request);
     }
 
