@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class BlogDto {
 
         private String fileName;
 
-        @NotBlank
+        @NotNull // int형은 NotBlank로 검사하면 안됨
         private int categoryId;
 
     }
