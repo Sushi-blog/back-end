@@ -164,6 +164,43 @@ class BlogControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void 게시글목록보기() throws Exception {
+        User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
+        Integer categoryId = createCategory(user);
+        createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+
+        mvc.perform(get("/blog/"+user.getEmail())
+                .param("size","6")
+                .param("page","0")
+                .param("category-id",categoryId.toString()))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void 게시글목록보기_전체보기() throws Exception {
+        User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
+        Integer categoryId = createCategory(user);
+        createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+
+        mvc.perform(get("/blog/"+user.getEmail())
+                .param("size","6")
+                .param("page","0")
+                .param("category-id","0"))
+                .andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void 게시글상세보기() throws Exception {
+        User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
+        Integer categoryId = createCategory(user);
+        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+
+        mvc.perform(get("/blog/details/"+user.getEmail())
+                .param("id",blogId.toString()))
+                .andExpect(status().isOk()).andDo(print());
+    }
+
     private Integer createCategory(User user) {
         return categoryRepository.save(
                 Category.builder()
