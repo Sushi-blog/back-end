@@ -2,6 +2,7 @@ package com.sushiblog.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sushiblog.backend.dto.BlogDto.*;
+import com.sushiblog.backend.entity.blog.Blog;
 import com.sushiblog.backend.entity.blog.BlogRepository;
 import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.category.CategoryRepository;
@@ -22,6 +23,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -92,7 +95,7 @@ class BlogControllerTest {
 
         mvc.perform(post("/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated());
     }
 
@@ -109,7 +112,7 @@ class BlogControllerTest {
 
         mvc.perform(post("/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -126,8 +129,28 @@ class BlogControllerTest {
 
         mvc.perform(post("/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound());
+    }
+
+    @WithMockUser(value = "yyuunn17@naver.com", password = "password1235")
+    @Test
+    public void 게시글수정_성공() throws Exception {
+        User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
+        Integer categoryId = createCategory(user);
+        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+
+        BlogRequest request = BlogRequest.builder()
+                .title("title")
+                .content("content")
+                .fileName("공부하기 싫다.png")
+                .categoryId(115)
+                .build();
+
+        mvc.perform(put("/blog/"+blogId)
+                .content(new ObjectMapper().writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
+                .andExpect(status().isNoContent());
     }
 
     private Integer createCategory(User user) {
@@ -136,6 +159,19 @@ class BlogControllerTest {
                         .user(user)
                         .id(1)
                         .name("category1")
+                        .build()
+        ).getId();
+    }
+
+    private Integer createPost(User user, Category category) {
+        return blogRepository.save(
+                Blog.builder()
+                        .category(category)
+                        .fileName("file")
+                        .createdAt(LocalDateTime.now())
+                        .title("title")
+                        .content("content")
+                        .user(user)
                         .build()
         ).getId();
     }
