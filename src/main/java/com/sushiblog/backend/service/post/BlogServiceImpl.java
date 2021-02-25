@@ -136,6 +136,7 @@ public class BlogServiceImpl implements BlogService {
                 .title(blog.getTitle())
                 .content(blog.getContent())
                 .createdAt(LocalDateTime.parse(blog.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm"))))
+                //날짜와 시간 사이의 공백에 'T'를 붙여준다. 공백이 오류의 원인이 될수 있기 때문에 그렇게 하며, T만 쓰면 오류나서 ''로 묶어주는 것이다.
                 .build();
     }
 
