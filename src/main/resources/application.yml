@@ -7,6 +7,8 @@ spring:
   datasource:
     url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   redis:
     host: ${REDIS_HOST:localhost}
