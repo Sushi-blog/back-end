@@ -19,7 +19,7 @@ public class FileController {
         return fileService.getImages(path);
     }
 
-    @DeleteMapping("/{blog-id}")
+    @DeleteMapping("/delete/{blog-id}")
     public void deleteFile(@PathVariable("blog-id")int blogId) {
         fileService.deleteFile(blogId);
     }
