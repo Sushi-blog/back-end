@@ -55,6 +55,8 @@ public class BlogDto {
 
         private String title;
 
+        private String filePath;
+
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate createdAt;
 
@@ -75,6 +77,8 @@ public class BlogDto {
         private String content;
 
         private LocalDateTime createdAt;
+
+        private String filePath;
 
     }
 
