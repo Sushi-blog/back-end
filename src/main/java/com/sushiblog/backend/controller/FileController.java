@@ -11,16 +11,6 @@ public class FileController {
 
     private final FileService fileService;
 
-    @GetMapping
-    public void downloadFile() {
-
-    }
-
-    @PostMapping
-    public void uploadFile() {
-
-    }
-
     @DeleteMapping("/{file-id}")
     public void deleteFile(@PathVariable("blog-id")int blogId) {
         fileService.deleteFile(blogId);
