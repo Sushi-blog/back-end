@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequestMapping("/blog")
 @RequiredArgsConstructor
@@ -17,8 +20,9 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writePost(@RequestBody @Validated BlogRequest request) {
-        blogService.writePost(request);
+    public void writePost(@RequestBody @Validated BlogRequest request,
+                          @RequestParam(required = false) MultipartFile file) throws IOException {
+        blogService.writePost(request, file);
     }
 
     @PutMapping("/{id}")

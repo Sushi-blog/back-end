@@ -13,10 +13,14 @@ import com.sushiblog.backend.error.NotAccessibleException;
 import com.sushiblog.backend.error.UserNotFoundException;
 import com.sushiblog.backend.security.jwt.auth.AuthenticationFacade;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,8 +37,11 @@ public class BlogServiceImpl implements BlogService {
 
     private final AuthenticationFacade authenticationFacade;
 
+    @Value("${file.path}")
+    private String PATH;
+
     @Override
-    public void writePost(BlogRequest request) {
+    public void writePost(BlogRequest request, MultipartFile file) throws IOException {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
                 .orElseThrow(NotAccessibleException::new);
 
@@ -50,11 +57,22 @@ public class BlogServiceImpl implements BlogService {
                             .content(request.getContent())
                             .category(category)
                             .createdAt(LocalDateTime.now())
+                            .filePath(filePath(file))
                             .build()
             );
+            file.transferTo(new File(PATH+file.getOriginalFilename()));
         }
         else {
             throw new NotAccessibleException();
+        }
+    }
+
+    private String filePath(MultipartFile file) {
+        if(file.isEmpty()) {
+            return null;
+        }
+        else {
+            return PATH + file.getOriginalFilename();
         }
     }
 
