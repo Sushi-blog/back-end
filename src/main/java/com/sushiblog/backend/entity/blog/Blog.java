@@ -1,6 +1,6 @@
 package com.sushiblog.backend.entity.blog;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sushiblog.backend.dto.BlogDto.BlogRequest;
 import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.user.User;
@@ -34,13 +34,16 @@ public class Blog {
     @DateTimeFormat(pattern = "yyyy-MM-dd`T`hh:mm:ss") // 띄어쓰기로 인해서 값이 잘못 넘어올까봐 T를 쓰는데, T를 포맷에서 그냥 쓸수가 없어서 ``로 감싸준다.
     private LocalDateTime createdAt;
 
+    @Column(length = 100)
+    private String filePath;
+
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn(name = "category")
     private Category category;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn(name = "user")
     private User user;
 

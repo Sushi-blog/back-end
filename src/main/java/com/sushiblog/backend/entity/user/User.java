@@ -1,6 +1,6 @@
 package com.sushiblog.backend.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sushiblog.backend.entity.blog.Blog;
 import com.sushiblog.backend.entity.category.Category;
 import lombok.AllArgsConstructor;
@@ -28,11 +28,11 @@ public class User {
     private String nickname;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference
+    @JsonManagedReference
     private List<Category> categories;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "user")
-    @JsonBackReference
+    @JsonManagedReference
     private List<Blog> blogs;
 
     public void updateNickname(String nickname) {

@@ -1,7 +1,6 @@
 package com.sushiblog.backend.entity.category;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sushiblog.backend.entity.blog.Blog;
 import com.sushiblog.backend.entity.user.User;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,7 @@ public class Category {
     private String name;
 
     @ManyToOne
-    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn(name = "user")
     private User user;
 
