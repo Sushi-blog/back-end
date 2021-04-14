@@ -14,7 +14,8 @@ public enum ErrorCode { //대충 쓰면 나중에 오류날 때 어떤 오류인
     UNAUTHENTICATED(401, "USER401-1", "UnAuthenticated"),
     NOT_ACCESSIBLE(401, "USER401-2","Check the token"),
     ALREADY_EXIST(409, "USER409-0","Already exists"),
-    FORMAT_INCORRECT(400, "USER400-1", "String format is incorrect");
+    FORMAT_INCORRECT(400, "USER400-1", "String format is incorrect"),
+    IMAGE_NOT_FOUND(404, "IMAGE404-1","Image is not found");
 
     private final int status;
     private final String code;
