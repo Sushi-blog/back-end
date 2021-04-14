@@ -14,7 +14,7 @@ public class FileController {
 
     private final FileService fileService;
 
-    @GetMapping(value = "/{path}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @GetMapping(value = "/{path}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE}) //JPEG 또는 PNG로 반환
     public byte[] getImages(@PathVariable String path) throws IOException {
         return fileService.getImages(path);
     }
