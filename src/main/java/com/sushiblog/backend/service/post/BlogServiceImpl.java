@@ -48,7 +48,6 @@ public class BlogServiceImpl implements BlogService {
                     Blog.builder()
                             .title(request.getTitle())
                             .content(request.getContent())
-                            .fileName(request.getFileName())
                             .category(category)
                             .createdAt(LocalDateTime.now())
                             .build()

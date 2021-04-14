@@ -26,8 +26,6 @@ public class BlogDto {
         @NotBlank
         private String content;
 
-        private String fileName;
-
         @NotNull // int형은 NotBlank로 검사하면 안됨
         private int categoryId;
 
