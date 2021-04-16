@@ -59,7 +59,7 @@ class BlogControllerTest {
                 .webAppContextSetup(context)
                 .build();
 
-        User user = userRepository.save(
+        userRepository.save(
                 User.builder()
                         .nickname("대마고이승윤")
                         .email("201413lsy@dsm.hs.kr")
