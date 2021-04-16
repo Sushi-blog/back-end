@@ -50,6 +50,11 @@ public class BlogServiceImpl implements BlogService {
             throw new CategoryNotFoundException();
         }
 
+        String filePath = null;
+        if(file != null) {
+            filePath = PATH + file.getOriginalFilename();
+        }
+
         if(category.getUser().getEmail().equals(user.getEmail())) {
             blogRepository.save(
                     Blog.builder()
@@ -57,22 +62,15 @@ public class BlogServiceImpl implements BlogService {
                             .content(request.getContent())
                             .category(category)
                             .createdAt(LocalDateTime.now())
-                            .filePath(filePath(file))
+                            .filePath(filePath)
                             .build()
             );
-            file.transferTo(new File(PATH+file.getOriginalFilename()));
+            if(file != null) {
+                file.transferTo(new File(filePath));
+            }
         }
         else {
             throw new NotAccessibleException();
-        }
-    }
-
-    private String filePath(MultipartFile file) {
-        if(file.isEmpty()) {
-            return null;
-        }
-        else {
-            return PATH + file.getOriginalFilename();
         }
     }
 
