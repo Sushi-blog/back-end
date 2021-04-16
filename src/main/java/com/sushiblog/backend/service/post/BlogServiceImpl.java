@@ -102,8 +102,10 @@ public class BlogServiceImpl implements BlogService {
 
         if(blog.getCategory().getUser() == user) {
             blogRepository.delete(blog);
-            File file = new File(blog.getFilePath());
-            file.delete();
+            if(blog.getFilePath() != null) {
+                File file = new File(blog.getFilePath());
+                file.delete();
+            }
         }
     }
 
