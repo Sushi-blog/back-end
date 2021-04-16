@@ -14,6 +14,7 @@ spring.redis.port=${REDIS_PORT:6379}
 
 auth.jwt.secret=${JWT_SECRET_KEY}
 auth.jwt.exp.access=${JWT_ACCESS_EXP:4000}
+auth.jwt.exp.refresh=${JWT_REFRESH_EXP}
 auth.jwt.header=${JWT_HEADER:Authorization}
 auth.jwt.prefix=${JWT_PREFIX:Bearer}
 
