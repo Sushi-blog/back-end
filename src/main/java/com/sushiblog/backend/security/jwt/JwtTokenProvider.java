@@ -4,7 +4,6 @@ import com.sushiblog.backend.error.InvalidTokenException;
 import com.sushiblog.backend.security.jwt.auth.AuthDetails;
 import com.sushiblog.backend.security.jwt.auth.AuthDetailsService;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,9 +22,6 @@ public class JwtTokenProvider {
 
     @Value("${auth.jwt.exp.access}")
     private Long accessTokenExpiration;
-
-    @Value("${auth.jwt.exp.refresh}")
-    private Long refreshTokenExpiration;
 
     @Value("${auth.jwt.header}")
     private String header;
