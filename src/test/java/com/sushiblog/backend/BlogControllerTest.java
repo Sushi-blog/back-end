@@ -8,6 +8,7 @@ import com.sushiblog.backend.entity.category.Category;
 import com.sushiblog.backend.entity.category.CategoryRepository;
 import com.sushiblog.backend.entity.user.User;
 import com.sushiblog.backend.entity.user.UserRepository;
+import com.sushiblog.backend.error.CategoryNotFoundException;
 import com.sushiblog.backend.error.UserNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,7 +89,6 @@ class BlogControllerTest {
         BlogRequest request = BlogRequest.builder()
                 .title("title")
                 .content("content")
-                .fileName("공부하기 싫다.png")
                 .categoryId(createCategory(userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new)))
                 .build();
 
@@ -105,7 +105,6 @@ class BlogControllerTest {
         BlogRequest request = BlogRequest.builder()
                 .title("title")
                 .content("content")
-                .fileName("공부하기 싫다.png")
                 .categoryId(createCategory(userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new)))
                 .build();
 
@@ -122,7 +121,6 @@ class BlogControllerTest {
         BlogRequest request = BlogRequest.builder()
                 .title("title")
                 .content("content")
-                .fileName("공부하기 싫다.png")
                 .categoryId(115)
                 .build();
 
@@ -137,12 +135,11 @@ class BlogControllerTest {
     public void 게시글수정_성공() throws Exception {
         User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
         Integer categoryId = createCategory(user);
-        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
         BlogRequest request = BlogRequest.builder()
                 .title("title")
                 .content("content")
-                .fileName("공부하기 싫다.png")
                 .categoryId(115)
                 .build();
 
@@ -157,7 +154,7 @@ class BlogControllerTest {
     public void 게시글삭제_성공() throws Exception {
         User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
         Integer categoryId = createCategory(user);
-        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
         mvc.perform(delete("/blog")
                 .param("id",blogId.toString()))
@@ -168,7 +165,7 @@ class BlogControllerTest {
     public void 게시글목록보기() throws Exception {
         User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
         Integer categoryId = createCategory(user);
-        createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+        createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
         mvc.perform(get("/blog/"+user.getEmail())
                 .param("size","6")
@@ -181,7 +178,7 @@ class BlogControllerTest {
     public void 게시글목록보기_전체보기() throws Exception {
         User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
         Integer categoryId = createCategory(user);
-        createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+        createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
         mvc.perform(get("/blog/"+user.getEmail())
                 .param("size","6")
@@ -194,7 +191,7 @@ class BlogControllerTest {
     public void 게시글상세보기() throws Exception {
         User user = userRepository.findById("yyuunn17@naver.com").orElseThrow(UserNotFoundException::new);
         Integer categoryId = createCategory(user);
-        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow());
+        Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
         mvc.perform(get("/blog/details/"+user.getEmail())
                 .param("id",blogId.toString()))
@@ -215,7 +212,6 @@ class BlogControllerTest {
         return blogRepository.save(
                 Blog.builder()
                         .category(category)
-                        .fileName("file")
                         .createdAt(LocalDateTime.now())
                         .title("title")
                         .content("content")
