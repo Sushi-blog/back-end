@@ -20,32 +20,32 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void writePost(@RequestBody @Validated BlogRequest request,
+    public void writePost(@RequestBody @Validated BlogRequest request, // /blog
                           @RequestParam(required = false) MultipartFile file) throws IOException {
         blogService.writePost(request, file);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePost(@PathVariable int id,
+    public void updatePost(@PathVariable int id, // /blog/{id}
                            @RequestBody @Validated BlogRequest request) {
         blogService.updatePost(id, request);
     }
 
     @DeleteMapping
-    public void deletePost(@RequestParam int id) {
+    public void deletePost(@RequestParam int id) { // /blog?id=
         blogService.deletePost(id);
     }
 
     @GetMapping("/{email}")
-    public BlogsResponse getBlogs(@PathVariable String email,
+    public BlogsResponse getBlogs(@PathVariable String email, // /blog/{email}?size=&page=&category-id
                                      Pageable page,
                                      @RequestParam(name = "category-id", required = false) int categoryId) {
         return blogService.getPosts(email, page, categoryId);
     }
 
-    @GetMapping("/details/{email}")
-    public BlogDetailsResponse getBlog(@PathVariable String email,
+    @GetMapping("/{email}/details")
+    public BlogDetailsResponse getBlog(@PathVariable String email, // /blog/{email}/details?id=
                                        @RequestParam int id) {
         return blogService.getPost(email, id);
     }
