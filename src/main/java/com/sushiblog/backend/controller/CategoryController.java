@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.sushiblog.backend.dto.CategoryDto.*;
 
-@RequestMapping("/category")
+@RequestMapping("/sushi/category")
 @RequiredArgsConstructor
 @RestController
 public class CategoryController {

@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-@RequestMapping("/blog")
+@RequestMapping("/sushi/blog")
 @RequiredArgsConstructor
 @RestController
 public class BlogController {

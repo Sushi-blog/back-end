@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-@RequestMapping("/blog/file")
+@RequestMapping("/sushi/blog/file")
 @RequiredArgsConstructor
 @RestController
 public class FileController {

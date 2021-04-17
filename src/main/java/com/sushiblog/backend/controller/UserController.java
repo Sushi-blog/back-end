@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/account")
+@RequestMapping("/sushi/account")
 @RestController
 public class UserController {
 

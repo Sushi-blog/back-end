@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/auth")
+@RequestMapping("/sushi/auth")
 @RequiredArgsConstructor
 @RestController
 public class AuthController {
