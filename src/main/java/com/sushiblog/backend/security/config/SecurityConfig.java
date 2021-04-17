@@ -25,18 +25,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .formLogin().disable()
                 .csrf().disable() //웹사이트 취약점 공격
                 .cors().and()
                 .sessionManagement().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/account").permitAll()
-                .antMatchers(HttpMethod.GET, "/account").permitAll()
-                .antMatchers(HttpMethod.POST, "/auth").permitAll()
-                .antMatchers(HttpMethod.GET, "/blog/details").permitAll()
-                .antMatchers(HttpMethod.GET, "/blog").permitAll()
+                .antMatchers("/account").permitAll()
+                .antMatchers("/auth").permitAll()
+                .antMatchers(HttpMethod.GET, "/blog/**/details").permitAll()
+                .antMatchers(HttpMethod.GET, "/blog/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/category").permitAll()
                 .antMatchers(HttpMethod.GET, "/blog/file/**").permitAll()
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated()
+                .and()
                 .apply(new JwtConfigure(jwtTokenProvider));
     }
 
