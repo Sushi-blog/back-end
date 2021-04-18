@@ -30,13 +30,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .cors().and()
                 .sessionManagement().disable();
         http.authorizeRequests()
-                .anyRequest().permitAll()/*
                 .antMatchers("/sushi/account").permitAll()
                 .antMatchers("/sushi/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/blog/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/blog/details/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/category/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/sushi/blog/file/**").permitAll()*/
+                .antMatchers(HttpMethod.GET, "/sushi/blog/file/**").permitAll()
                 .and()
                 .apply(new JwtConfigure(jwtTokenProvider));
     }
