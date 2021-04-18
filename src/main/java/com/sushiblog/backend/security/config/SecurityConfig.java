@@ -28,15 +28,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
                 .formLogin().disable()
                 .csrf().disable() //웹사이트 취약점 공격
                 .cors().and()
-                .sessionManagement().disable()
-                .authorizeRequests()
+                .sessionManagement().disable();
+        http.authorizeRequests()
                 .antMatchers("/sushi/account").permitAll()
                 .antMatchers("/sushi/auth").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/blog/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/blog/details/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/category/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/sushi/blog/file/**").permitAll()
-                .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigure(jwtTokenProvider));
     }
