@@ -75,12 +75,16 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void updatePost(int id, BlogRequest request) {
+    public void updatePost(int id, String email, BlogRequest request) {
         Blog blog = blogRepository.findById(id)
                 .orElseThrow(BlogNotFoundException::new);
 
         User user = userRepository.findById(authenticationFacade.getUserEmail())
                 .orElseThrow(NotAccessibleException::new);
+
+        if(user.getEmail().equals(email)) { //본인이 맞는가?
+            throw new NotAccessibleException();
+        }
 
         if(blog.getCategory().getUser() == user) {
             blog.update(request);

@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public interface BlogService {
     void writePost(BlogRequest request, MultipartFile file) throws IOException;
-    void updatePost(int id, BlogRequest request);
+    void updatePost(int id, String email, BlogRequest request);
     void deletePost(int id);
     BlogsResponse getPosts(String email, Pageable page, int categoryId);
     BlogDetailsResponse getPost(String email, int id);
