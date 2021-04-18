@@ -25,11 +25,12 @@ public class BlogController {
         blogService.writePost(request, file);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/details/{email}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePost(@PathVariable int id, // /blog/update/{id}
+    public void updatePost(@RequestParam int id, // /blog/details/{email}?id=
+                           @PathVariable String email,
                            @RequestBody @Validated BlogRequest request) {
-        blogService.updatePost(id, request);
+        blogService.updatePost(id, email, request);
     }
 
     @DeleteMapping
@@ -37,16 +38,16 @@ public class BlogController {
         blogService.deletePost(id);
     }
 
-    @GetMapping("/view/{email}")
+    @GetMapping("/{email}")
     public BlogsResponse getBlogs(@PathVariable String email, // /blog/view/{email}?size=&page=&category-id=
                                      Pageable page,
                                      @RequestParam(name = "category-id", required = false) int categoryId) {
         return blogService.getPosts(email, page, categoryId);
     }
 
-    @GetMapping("/view/details/{email}")
+    @GetMapping("/details/{email}")
     public BlogDetailsResponse getBlog(@RequestParam int id,
-                                       @PathVariable String email) { // /blog/view/{email}/details?id=
+                                       @PathVariable String email) { // /blog/details/{email}?id=
         return blogService.getPost(email, id);
     }
 
