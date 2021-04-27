@@ -6,7 +6,7 @@ services:
     build: .
     container_name: sushi-backend-server
     ports:
-      - "5555:8080"
+      - "5555:8081"
     networks:
       - redis-network
   redis:
