@@ -11,9 +11,9 @@ services:
       - redis-network
   redis:
     image: redis
-    container_name: redis-server
+    container_name: redis-sushi
     ports:
-      - "6390:6379"
+      - "6391:6379"
     networks:
       - redis-network
 networks:
