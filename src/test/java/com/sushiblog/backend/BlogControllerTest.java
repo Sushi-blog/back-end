@@ -92,7 +92,7 @@ class BlogControllerTest {
                 .categoryId(createCategory(userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new)))
                 .build();
 
-        mvc.perform(post("/blog")
+        mvc.perform(post("/sushi/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated());
@@ -108,7 +108,7 @@ class BlogControllerTest {
                 .categoryId(createCategory(userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new)))
                 .build();
 
-        mvc.perform(post("/blog")
+        mvc.perform(post("/sushi/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
@@ -124,7 +124,7 @@ class BlogControllerTest {
                 .categoryId(115)
                 .build();
 
-        mvc.perform(post("/blog")
+        mvc.perform(post("/sushi/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNotFound());
@@ -143,9 +143,11 @@ class BlogControllerTest {
                 .categoryId(115)
                 .build();
 
-        mvc.perform(put("/blog/"+blogId)
+        mvc.perform(put("/sushi/blog/details/"+user.getEmail())
+                .param("id",blogId.toString())
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
                 .andExpect(status().isNoContent());
     }
 
@@ -156,7 +158,7 @@ class BlogControllerTest {
         Integer categoryId = createCategory(user);
         Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
-        mvc.perform(delete("/blog")
+        mvc.perform(delete("/sushi/blog")
                 .param("id",blogId.toString()))
                 .andExpect(status().isOk());
     }
@@ -167,7 +169,7 @@ class BlogControllerTest {
         Integer categoryId = createCategory(user);
         createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
-        mvc.perform(get("/blog/"+user.getEmail())
+        mvc.perform(get("/sushi/blog/"+user.getEmail())
                 .param("size","6")
                 .param("page","0")
                 .param("category-id",categoryId.toString()))
@@ -180,7 +182,7 @@ class BlogControllerTest {
         Integer categoryId = createCategory(user);
         createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
-        mvc.perform(get("/blog/"+user.getEmail())
+        mvc.perform(get("/sushi/blog/"+user.getEmail())
                 .param("size","6")
                 .param("page","0")
                 .param("category-id","0"))
@@ -193,7 +195,7 @@ class BlogControllerTest {
         Integer categoryId = createCategory(user);
         Integer blogId = createPost(user, categoryRepository.findById(categoryId).orElseThrow(CategoryNotFoundException::new));
 
-        mvc.perform(get("/blog/details/"+user.getEmail())
+        mvc.perform(get("/sushi/blog/details/"+user.getEmail())
                 .param("id",blogId.toString()))
                 .andExpect(status().isOk()).andDo(print());
     }

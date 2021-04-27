@@ -103,7 +103,7 @@ public class CategoryControllerTest {
 
         UpdateRequest request = new UpdateRequest(id,"sushi카테고리");
 
-        mvc.perform(put("/category")
+        mvc.perform(put("/sushi/category")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isNoContent());
@@ -115,7 +115,7 @@ public class CategoryControllerTest {
         Integer id = createCategory(userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new));
         UpdateRequest request = new UpdateRequest(id,"sushi카테고리20자 넘지 않았냐 왜 오류 안뜨냐");
 
-        mvc.perform(put("/category")
+        mvc.perform(put("/sushi/category")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isBadRequest());
@@ -127,7 +127,7 @@ public class CategoryControllerTest {
         Integer id = createCategory(userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new));
         UpdateRequest request = new UpdateRequest(id,"sushi");
 
-        mvc.perform(put("/category")
+        mvc.perform(put("/sushi/category")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
@@ -145,13 +145,13 @@ public class CategoryControllerTest {
 
     @Test
     public void 카테고리리스트() throws Exception {
-        mvc.perform(get("/category/201413lsy@dsm.hs.kr"))
+        mvc.perform(get("/sushi/category/201413lsy@dsm.hs.kr"))
                 .andExpect(status().isOk()).andDo(print());
     }
 
     @Test
     public void 카테고리리스트_가져오기실패() throws Exception {
-        mvc.perform(get("/category/201413lsy0@dsm.hs.kr"))
+        mvc.perform(get("/sushi/category/201413lsy0@dsm.hs.kr"))
                 .andExpect(status().isNotFound()).andDo(print());
     }
 
