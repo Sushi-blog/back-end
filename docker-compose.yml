@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  pear:
+    image: sushi-backend
+    build: .
+    container_name: sushi-backend-server
+    ports:
+      - "5555:8080"
+    networks:
+      - redis-network
+  redis:
+    image: redis
+    container_name: redis-server
+    ports:
+      - "6390:6379"
+    networks:
+      - redis-network
+networks:
+  redis-network:
