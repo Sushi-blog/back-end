@@ -80,18 +80,13 @@ public class BlogServiceImpl implements BlogService {
                 .orElseThrow(BlogNotFoundException::new);
 
         User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(NotAccessibleException::new);
+                .orElseThrow(UserNotFoundException::new);
 
-        if(user.getEmail().equals(email)) { //본인이 맞는가?
+        if(blog.getCategory().getUser() != user) { //본인이 맞는가?
             throw new NotAccessibleException();
         }
-
-        if(blog.getCategory().getUser() == user) {
-            blog.update(request);
-        }
-        else {
-            throw new NotAccessibleException();
-        }
+        blog.update(request);
+        blogRepository.save(blog);
     }
 
     @Override
