@@ -40,6 +40,8 @@ public class CategoryServiceImpl implements CategoryService {
         else {
             throw new NotAccessibleException();
         }
+
+        categoryRepository.save(category);
     }
 
     @Override

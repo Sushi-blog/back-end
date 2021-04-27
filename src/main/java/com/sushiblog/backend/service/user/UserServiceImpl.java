@@ -69,6 +69,7 @@ public class UserServiceImpl implements UserService{
                 .orElseThrow(NotAccessibleException::new);
 
         user.updateNickname(nickname);
+        userRepository.save(user);
     }
 
     @Override
