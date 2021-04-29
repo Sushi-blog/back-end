@@ -21,11 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -42,18 +39,12 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void writePost(BlogRequest request, MultipartFile file) throws IOException {
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(NotAccessibleException::new);
+        User user = getUser();
 
-        Category category = categoryRepository.findById(request.getCategoryId());
-        if(category == null) {
-            throw new CategoryNotFoundException();
-        }
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(CategoryNotFoundException::new);
 
-        String filePath = null;
-        if(file != null) {
-            filePath = PATH + file.getOriginalFilename();
-        }
+        String filePath = file.isEmpty() ? null : PATH + file.getOriginalFilename();
 
         if(category.getUser().getEmail().equals(user.getEmail())) {
             blogRepository.save(
@@ -65,7 +56,7 @@ public class BlogServiceImpl implements BlogService {
                             .filePath(filePath)
                             .build()
             );
-            if(file != null) {
+            if(filePath != null) {
                 file.transferTo(new File(filePath));
             }
         }
@@ -79,12 +70,12 @@ public class BlogServiceImpl implements BlogService {
         Blog blog = blogRepository.findById(id)
                 .orElseThrow(BlogNotFoundException::new);
 
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = getUser();
 
-        if(blog.getCategory().getUser() != user) { //본인이 맞는가?
+        if(!blog.getCategory().getUser().equals(user)) { //본인이 맞는가?
             throw new NotAccessibleException();
         }
+
         blog.update(request);
         blogRepository.save(blog);
     }
@@ -94,8 +85,7 @@ public class BlogServiceImpl implements BlogService {
         Blog blog = blogRepository.findById(id)
                 .orElseThrow(BlogNotFoundException::new);
 
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(NotAccessibleException::new);
+        User user = getUser();
 
         if(blog.getCategory().getUser() == user) {
             blogRepository.delete(blog);
@@ -111,32 +101,20 @@ public class BlogServiceImpl implements BlogService {
         User user = userRepository.findById(email)
                 .orElseThrow(UserNotFoundException::new);
 
-        Category category = categoryRepository.findById(categoryId);
-
-        Page<Blog> blogPage;
-        if(category == null) {
-            blogPage = blogRepository.findAllByUserOrderByIdDesc(user, page);
-        }
-        else {
-            blogPage = blogRepository.findAllByUserAndCategoryOrderByIdDesc(user, category, page);
-        }
-        List<Blogs> blogs = new ArrayList<>();
-
-        for(Blog blog : blogPage) {
-            blogs.add(
-              Blogs.builder()
-                      .id(blog.getId())
-                      .category(blog.getCategory().getName())
-                      .title(blog.getTitle())
-                      .createdAt(LocalDate.from(blog.getCreatedAt()))
-                      .build()
-            );
-        }
+        Page<Blog> blogPage = categoryRepository.findById(categoryId)
+                .map(category -> blogRepository.findAllByUserAndCategoryOrderByIdDesc(user, category, page))    // 만약 존재하면 이걸로 검색
+                .orElseGet(() ->blogRepository.findAllByUserOrderByIdDesc(user, page));                         // 존재하지 않으면 이걸로 검색
 
         return BlogsResponse.builder()
                 .totalElements((int)blogPage.getTotalElements())
                 .totalPages(blogPage.getTotalPages())
-                .blogs(blogs)
+                .blogs(blogPage.map(blog -> Blogs.builder()
+                        .id(blog.getId())
+                        .category(blog.getCategory().getName())
+                        .createdAt(blog.getCreatedAt().toLocalDate())
+                        .title(blog.getTitle())
+                        .filePath(blog.getFilePath())
+                        .build()).toList())
                 .build();
     }
 
@@ -157,6 +135,11 @@ public class BlogServiceImpl implements BlogService {
                 //날짜와 시간 사이의 공백에 'T'를 붙여준다. 공백이 오류의 원인이 될수 있기 때문에 그렇게 하며, T만 쓰면 오류나서 ''로 묶어주는 것이다.
                 .filePath(blog.getFilePath())
                 .build();
+    }
+
+    private User getUser() {
+        return userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(NotAccessibleException::new);
     }
 
 }

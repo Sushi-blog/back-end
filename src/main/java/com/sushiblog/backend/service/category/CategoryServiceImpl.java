@@ -26,10 +26,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void updateName(int id, String name) {
-        Category category = categoryRepository.findById(id);
-        if(category == null) {
-            throw new CategoryNotFoundException();
-        }
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(CategoryNotFoundException::new);
 
         if(!(name.length() > 0 && name.length() <20))
             throw new FormatInCorrectException();
