@@ -24,7 +24,7 @@ public class Category {
     @Column(nullable = false, length = 20)
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "user")
     private User user;
