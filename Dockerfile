@@ -1,8 +1,5 @@
-
-ENV DB_URL
-ENV DB_USERNAME
-ENV DB_PASSWORD
-ENV REDIS_HOST
-ENV REDIS_PORT
-ENV JWT_SECRET_KEY
-ENV FILE_PATH
+FROM openjdk:11-jre-slim
+EXPOSE 8081
+ENV TZ=Asia/Seoul
+COPY ./build/libs/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
