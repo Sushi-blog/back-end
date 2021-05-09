@@ -26,7 +26,7 @@ public class Category {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy = "category")

@@ -37,12 +37,12 @@ public class Blog {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "user_id")
     private User user;
 
     public void update(BlogRequest request) {
